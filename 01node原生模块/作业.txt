@@ -1,0 +1,15 @@
+
+1.bootstrap框架官网:https://www.bootcss.com/
+
+2.https://www.layui.com/demo/admin.html
+
+
+要求：完成一个后台管理系统页面制作
+
+-用户管理
+    - 增：添加用户
+    - 用户列表
+    - 修改用户密码
+-商品信息管理
+-订单管理
+
