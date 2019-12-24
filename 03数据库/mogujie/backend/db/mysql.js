@@ -8,9 +8,9 @@ var mysql = require('mysql'); //引入mysql模块
 var pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'root',
+    password: '123456',
     port: 3306,
-    database: 'db1911',
+    database: 'mydb',
     charset: 'UTF8_GENERAL_CI',
     multipleStatements: true //允许写多个sql语句,允许你拼接sql一次执行多个语句
 });
@@ -22,6 +22,11 @@ function query(sql, callback) { //这里的代码帮我们执行sql语句
         callback(rows); //函数的入口：实参  回调=>回调地狱=>promise
     });
 }
+
+let sql = 'select * from users';
+query(sql, data => {
+    console.log(data);
+});
 
 //升级版：利用promise:处理异步请求，保证请求顺序，解决回调地狱
 // function query(sql) { //调用query方法会得到一个promise对象
