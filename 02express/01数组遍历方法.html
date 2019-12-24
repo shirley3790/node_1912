@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    
+    let arr = [1, 2, 3, 4];
+
+    //filter ：需求：把数组里面大于2的数据过滤出来
+    let arr1 = arr.filter(item => item > 2);
+    console.log(arr1);
+
+    //some 需求：数组里面是否有大于3的数据  结果是布尔值
+    let res = arr.some(item => item > 3);
+    console.log(res);
+
+    //every 需求：数组里面的数据全都大于2吗
+    let res2 = arr.every(item => item > 2);
+    console.log(res2);
+
+    //reduce 归并， 需求：数组求和得到结果
+    // let sum = arr.reduce((prev, item) => {
+    //     return prev + item;
+    // }, 0);
+
+    let sum = arr.reduce((prev, item) => prev + item, 0);
+    console.log(sum);
+</script>
+
+</html>

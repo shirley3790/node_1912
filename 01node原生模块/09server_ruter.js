@@ -9,6 +9,7 @@ let app = http.createServer((req, res) => {
         res：respnse 响应，服务器发给客户端
     */
     console.log(req.url);
+    //简单的路由实现原理
     res.writeHead(200, { 'content-Type': 'text/html;charset=utf-8' });
     let path = req.url;
     switch (path) {
