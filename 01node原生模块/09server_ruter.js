@@ -6,7 +6,7 @@ let http = require('http');//写绝对路径
 let app = http.createServer((req, res) => {
     /*
         req:request 请求 ： 客户端发给服务器端
-        res：respnse 响应，服务器发给客户端
+        res：respnse 响应，服务器发给客户端2
     */
     console.log(req.url);
     //简单的路由实现原理
