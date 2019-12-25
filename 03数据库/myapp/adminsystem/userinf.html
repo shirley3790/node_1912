@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="css/matrix-style2.css" />
 	<link rel="stylesheet" href="css/matrix-media.css" />
 	<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+	<!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'> -->
 </head>
 
 <body>
@@ -36,15 +36,15 @@
 								<thead>
 									<tr>
 										<th><i class="icon-resize-vertical"></i></th>
-										<th>id</th>
+										<th>uid</th>
 										<th>用户名</th>
 										<th>密码</th>
-										<th>邮箱</th>
+										<th>注册时间</th>
 										<th>操作</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
+								<tbody id="tbody">
+									<!-- <tr>
 										<td><input type="checkbox" /></td>
 										<td>1</td>
 										<td contenteditable="true">张学友</td>
@@ -55,19 +55,8 @@
 											<button type="submit" class="btn btn-info">修改</button>
 											<button type="submit" class="btn btn-success">保存</button>
 										</td>
-									</tr>
-									<tr>
-										<td><input type="checkbox" /></td>
-										<td>1</td>
-										<td contenteditable="true">张学友</td>
-										<td>456123</td>
-										<td class="center">34242777@qq.com</td>
-										<td>
-											<button type="submit" class="btn btn-danger">删除</button>
-											<button type="submit" class="btn btn-info">修改</button>
-											<button type="submit" class="btn btn-success">保存</button>
-										</td>
-									</tr>
+									</tr> -->
+
 								</tbody>
 							</table>
 						</div>
@@ -78,12 +67,13 @@
 							class="first ui-corner-tl ui-corner-bl fg-button ui-button ui-state-default ui-state-disabled"
 							id="DataTables_Table_0_first">第一页</a>
 						<a tabindex="0" class="previous fg-button ui-button ui-state-default ui-state-disabled"
-							id="DataTables_Table_0_previous">上一页</a><span><a tabindex="0"
-								class="fg-button ui-button ui-state-default ui-state-disabled">1</a><a tabindex="0"
-								class="fg-button ui-button ui-state-default">2</a><a tabindex="0"
-								class="fg-button ui-button ui-state-default">3</a><a tabindex="0"
-								class="fg-button ui-button ui-state-default">4</a><a tabindex="0"
-								class="fg-button ui-button ui-state-default">5</a></span>
+							id="DataTables_Table_0_previous">上一页</a>
+						<span id="pages">
+							<!-- <a tabindex="0" class="fg-button ui-button ui-state-default ui-state-disabled">1</a>
+							<a tabindex="0" class="fg-button ui-button ui-state-default">2</a> -->
+						</span>
+
+
 						<a tabindex="0" class="next fg-button ui-button ui-state-default"
 							id="DataTables_Table_0_next">下一页</a>
 						<a tabindex="0" class="last ui-corner-tr ui-corner-br fg-button ui-button ui-state-default"
@@ -95,7 +85,8 @@
 		</div>
 	</div>
 
-	<script src="http://www.jq22.com/jquery/jquery-1.7.1.js"></script>
+	<!-- <script src="http://www.jq22.com/jquery/jquery-1.7.1.js"></script> -->
+	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery.ui.custom.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.uniform.js"></script>
@@ -103,6 +94,52 @@
 	<script src="js/jquery.dataTables.min.js"></script>
 	<script src="js/matrix.js"></script>
 	<script src="js/matrix.tables.js"></script>
+	<script>
+
+
+		//需求：请求第一页数据渲染到页面
+		$.ajax({
+			type: 'get',
+			url: '/users/all',
+			data: {
+				page: 1,
+				num: 5
+			},
+			success: function (data) {
+				console.log(data);
+				create(data);
+			}
+		});
+
+		function create(data) {
+			let str = data.datalist.map(item => {
+				return `<tr>
+										<td><input type="checkbox" /></td>
+										<td>${item.uid}</td>
+										<td contenteditable="true">${item.name}</td>
+										<td>${item.psw}</td>
+										<td class="center">${item.regtime}</td>
+										<td>
+											<button type="submit" class="btn btn-danger">删除</button>
+											<button type="submit" class="btn btn-info">修改</button>
+											<button type="submit" class="btn btn-success">保存</button>
+										</td>
+									</tr>`;
+			}).join('');
+			$('#tbody').html(str);//渲染数据
+
+
+			//生成页码
+			let str2 = '';
+			for (let i = 0; i < data.pages; i++) {
+				str2 += `<a tabindex="0" class="fg-button ui-button ui-state-default">${i + 1}</a>`;
+			}
+			$('#pages').html(str2);
+			$('#pages a').eq(0).addClass('ui-state-disabled');
+		}
+
+
+	</script>
 </body>
 
 </html>

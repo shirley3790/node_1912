@@ -39,20 +39,32 @@
     let p = query();
     p.then(data => {
         //使用成功返回的数据
+
     }).catch(err => {
         //捕获错误
+
     });
 
     //ES7 写法 async await
+    // await写在async里面
     async function getdata() {
         try {
             let data = await query();//data就是promise成功返回的数据 resolve
             //data 用同步的方式实现了异步的效果
         } catch{
-            //获取到reject处理的数据
+            //获取到reject返回的数据
         }
 
     }
+
+    call(async () => {
+        try {
+            let data = await query();//data就是promise成功返回的数据 resolve
+            //data 用同步的方式实现了异步的效果
+        } catch{
+            //获取到reject返回的数据
+        }
+    })
 
 
 </script>
