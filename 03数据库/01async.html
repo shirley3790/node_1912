@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // ajax(url,type,function() {
+
+    // })
+
+    let p = new Promise((resolve, reject) => {
+        setTimeout(function () {
+            resolve('调用')
+        }, 1000);
+    });
+
+    p.then(data => {
+
+    }).catch(err => {
+
+    });
+
+
+    let p = new Promise((resolve, reject) => {
+        setTimeout(function () {
+            resolve('调用')
+        }, 1000);
+    });
+
+    //老的写法：query()调用后得到的是一个promise对象
+    let p = query();
+    p.then(data => {
+        //使用成功返回的数据
+    }).catch(err => {
+        //捕获错误
+    });
+
+    //ES7 写法 async await
+    async function getdata() {
+        try {
+            let data = await query();//data就是promise成功返回的数据 resolve
+            //data 用同步的方式实现了异步的效果
+        } catch{
+            //获取到reject处理的数据
+        }
+
+    }
+
+
+</script>
+
+</html>

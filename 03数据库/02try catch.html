@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let age = 'admin';
+    console.log('start');
+
+
+    try {//试着执行这里
+        if (age == 'admin') {
+            console.log('name');
+        }
+    } catch{//不行就捕获异常再继续往下走，好处不会影响下面的代码
+        console.log('出错了');
+    }
+
+    console.log('end');
+
+    /*
+        try catch优点：
+            * 捕获异常：捕获异常并打印
+            * 不阻塞后面代码的执行
+
+        两种可能：
+            * 没有出错 ：start->你成年啦->end
+            * 出错了：start->错误信息->end
+    */
+</script>
+
+</html>
