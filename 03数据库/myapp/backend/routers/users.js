@@ -142,6 +142,68 @@ Router.post('/reg', urlencodedParser, async (req, res) => {
 
 });
 
+//需求：删除xx用户
+Router.delete('/del/:uid', async (req, res) => {
+    let { uid } = req.params;
+    let sql = `DELETE FROM userinf WHERE uid=${uid}`;
+    let data = await query(sql);
+    // console.log(data);
+    let result = {};
+    if (data.affectedRows) {
+        //删除成功
+        result = {
+            type: 1,
+            msg: '删除成功'
+        }
+    } else {
+        result = {
+            type: 0,
+            msg: '删除失败'
+        }
+    }
+    res.send(result);
+});
+
+//需求：删除多个记录
+Router.delete('/delall', express.urlencoded(), async (req, res) => {
+    let { uid } = req.body;
+    // console.log(uid);
+    let sql = `DELETE FROM userinf WHERE uid in(${uid})`;
+    let data = await query(sql);
+    console.log(data);
+    let result = {};
+    if (data.affectedRows) {
+        //插入成功
+        result = {
+            type: 1,
+            msg: '删除成功'
+        }
+    } else {
+        //插入失败
+        result = {
+            type: 0,
+            msg: '删除失败'
+        }
+    }
+    res.send(result);
+});
+
+//需求：修改用户信息
+Router.put('/update/:uid', express.urlencoded(), async (req, res) => {
+    let obj = req.body; //{name : '杰克',psw:'666'}
+    console.log(obj);
+    //name='JJJJJ', psw='6666'
+    let msg = '';
+    for (let key in obj) {
+        msg += key + '=' + `'${obj[key]}'` + ',';
+    }
+    msg = msg.slice(0, -1);
+    console.log(msg);
+    let sql = `UPDATE  userinf SET ${msg} WHERE uid=21`;
+    let data = await query(sql);
+    console.log(data);
+});
+
 module.exports = Router;
 
 

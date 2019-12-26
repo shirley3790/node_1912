@@ -40,7 +40,6 @@ function query(sql) {
             resolve(data);//实参,回调函数把data数据传到声明体 
         });
     });
-
 }
 
 module.exports = query;
