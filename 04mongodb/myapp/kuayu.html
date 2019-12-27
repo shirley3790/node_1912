@@ -17,6 +17,8 @@
 <script src="./adminsystem/js/jquery.min.js"></script>
 <script>
     (() => {
+        //备注：1912打开的页面。我要的数据都在1920端口下。下面的操作就是跨域获取数据
+
         //普通的请求：出bug，因为有跨域，后端没有开放接口
         $('#btn1').click(() => {
             $.ajax({
@@ -32,10 +34,10 @@
         //jsonp请求:jq是可以直接做jsonp跨域的  设置好dataType='jsonp' jsonp='后端接收函数名的变量'
         $('#btn2').click(() => {
             $.ajax({
-                type: 'get',
+                type: 'get',//jsonp默认就是get请求
                 url: 'http://localhost:1920/option/jsonp',
                 dataType: 'jsonp',
-                jsonp: 'callback',
+                jsonp: 'callback',//jq内部会生成一个随机的函数名，发送给后端
                 success: function (data) {
                     console.log(data);
                 }
@@ -43,10 +45,14 @@
         });
 
         //cors请求:如果后端设置了响应头： 'Access-Control-Allow-Origin', '*'
+        //请求的时候一般是用：url传数据/请求体body传数据/请求头传数据
         $('#btn3').click(() => {
             $.ajax({
                 type: 'get',
                 url: 'http://localhost:1920/option/cors',
+                // headers: {//请求头
+                //     'aaa': '666'
+                // },
                 success: function (data) {
                     console.log(data);
                 }

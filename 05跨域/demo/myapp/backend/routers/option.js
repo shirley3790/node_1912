@@ -21,7 +21,7 @@ Router.get('/data', (req, res) => {
 //需求：jsonp接口开放， 绝对是get请求  前端：http://localhost:1920/option/jsonp?callback=getdata
 //后端：getdata(data) 实参
 Router.get('/jsonp', (req, res) => {
-    let { callback } = req.query;
+    let { callback } = req.query;//用这个来接收函数名
     let list = [
         {
             name: '婧婧',
@@ -51,6 +51,7 @@ Router.use((req, res, next) => {
 
 //需求:cors接口开放,设置响应头
 Router.get('/cors', (req, res) => {
+    // console.log(req.get('aaa'));//获取请求头数据
     let str = '元旦放假一天，开不开心';
     let arr = [
         {
