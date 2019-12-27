@@ -75,6 +75,7 @@ Router.get('/checkname', (req, res) => {
     let { name } = req.query;
     console.log(name);//做数据库的查询
     let result = userlist.some(item => item == name);
+    // let result = userlist.includes(name);
 
     let data = {};
     if (result) {//真：找到，不给注册
