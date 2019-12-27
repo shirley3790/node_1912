@@ -20,7 +20,7 @@ request({
     });
     // console.log(arr);
     //写入本地文件
-    let writeStream = fs.createWriteStream('./aaa.txt');
+    let writeStream = fs.createWriteStream('./data.json');
     let str = JSON.stringify(arr);
     writeStream.write(str);//写入文档中
     writeStream.end();
