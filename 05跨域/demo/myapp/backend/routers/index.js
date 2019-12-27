@@ -16,6 +16,6 @@ const Router = express.Router(); //路由设置  Router==app
 
 Router.use('/users', usersRouter); //mysql做数据库
 Router.use('/goods', goodsRouter); //mongodb做数据库
-Router.use('/option', optionsRouter); //mongodb做数据库
+Router.use('/option', optionsRouter); //实现跨域请求
 
 module.exports = Router;
