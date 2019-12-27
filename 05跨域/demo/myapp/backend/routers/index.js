@@ -3,7 +3,8 @@ const express = require('express');
 
 const usersRouter = require('./users'); //引入子路由
 const goodsRouter = require('./goods'); //引入子路由
-const optionRouter = require('./option'); //引入子路由
+const optionsRouter = require('./option'); //引入子路由
+
 const Router = express.Router(); //路由设置  Router==app
 
 /*
@@ -15,6 +16,6 @@ const Router = express.Router(); //路由设置  Router==app
 
 Router.use('/users', usersRouter); //mysql做数据库
 Router.use('/goods', goodsRouter); //mongodb做数据库
-Router.use('/option', optionRouter); //mongodb做数据库
+Router.use('/option', optionsRouter); //mongodb做数据库
 
 module.exports = Router;

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>跨域访问接口</title>
+</head>
+
+<body>
+    <input type="button" value="获取数据" id="btn1">
+    <input type="button" value="获取数据-jsonp" id="btn2">
+    <input type="button" value="获取数据-cors" id="btn3">
+    <input type="button" value="获取数据-服务器代理" id="btn4">
+</body>
+<script src="./adminsystem/js/jquery.min.js"></script>
+<script>
+    (() => {
+        //普通的请求：出bug，因为有跨域，后端没有开放接口
+        $('#btn1').click(() => {
+            $.ajax({
+                type: 'get',
+                url: 'http://localhost:1920/option/data',
+                success: function (data) {
+                    console.log(data);
+                }
+            })
+        });
+
+
+        //jsonp请求:jq是可以直接做jsonp跨域的  设置好dataType='jsonp' jsonp='后端接收函数名的变量'
+        $('#btn2').click(() => {
+            $.ajax({
+                type: 'get',
+                url: 'http://localhost:1920/option/jsonp',
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                success: function (data) {
+                    console.log(data);
+                }
+            })
+        });
+
+        //cors请求:如果后端设置了响应头： 'Access-Control-Allow-Origin', '*'
+        $('#btn3').click(() => {
+            $.ajax({
+                type: 'get',
+                url: 'http://localhost:1920/option/cors',
+                success: function (data) {
+                    console.log(data);
+                }
+            })
+        });
+
+        //服务器代理  https://m.weibo.cn/api/config/list
+        // $('#btn4').click(() => {
+        //     $.ajax({
+        //         type: 'get',
+        //         url: 'https://m.weibo.cn/api/config/list',//因为对方没有设置cors响应头，我无法直接拿到数据，要后端实现接口的获取=>服务器代理
+        //         success: function (data) {
+        //             console.log(data);
+        //         }
+        //     })
+        // });
+
+        $('#btn4').click(() => {
+            $.ajax({
+                type: 'get',
+                url: '/option/sinaapi/api/config/list',//因为对方没有设置cors响应头，我无法直接拿到数据，要后端实现接口的获取=>服务器代理
+                success: function (data) {
+                    console.log(data);
+                }
+            })
+        });
+    })();
+</script>
+
+</html>
