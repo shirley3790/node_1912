@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"h51912.song"}],"uuid":"8f3d43bc4fee4ec4a5071630629a439c"}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>首页</title>
+</head>
+
+<body>
+    <h1>首页</h1>
+    <p>
+        <span id="con">xx,</span><a href="#" id="logout">退出</a>
+    </p>
+    <a href="./cart.html">购物车</a>
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+    (() => {
+
+        let name = location.search.slice(1);
+        $('#con').html(name + ',');
+
+        //点击退出的时候改成登陆
+        $('#logout').click(() => {
+            if ($('#logout').html() == '退出') {
+                $('#logout').html('登陆');
+                //退出的时候删除token
+                localStorage.removeItem('Authorization');
+                //删除用户名
+                $('#con').html('');
+            } else {
+                location.href = './login.html';
+                localStorage.setItem('target', './index.html');
+            }
+        });
+
+
+    })();
+</script>
+
+</html>

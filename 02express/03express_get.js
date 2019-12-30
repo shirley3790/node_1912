@@ -57,9 +57,11 @@ app.use(express.static('./'));//以当前目录为站点根目录
 //     console.log('这是h51912');
 // });
 
+//restful接口规范 ： 根据不同的请求类型和路径响应不同的数据接口
 //直接用get()来响应前端的get请求
 app.get('/home', (req, res) => {
-    res.send('首页');
+    res.send('首页');//内置了write()和end()
+    // res.send('首页');//内置了write()和end() 报错，不要写两个send()
 });
 
 app.get('/login', (req, res) => {

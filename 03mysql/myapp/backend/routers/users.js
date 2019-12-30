@@ -32,54 +32,61 @@ Router.get('/all', async (req, res) => {
     // let p = query(str);
     // p.then(data => {
 
+    // }).catch(() => {
+
     // });
 
     //高级版
     //前端传：第几页page 传数量 num
-    let { page, num } = req.query;
-    // console.log(page, num);
-    page = page || 1;//设置默认值
-    num = num || 5;//设置默认值
-    let index = (page - 1) * num;
-    let str = `SELECT * FROM userinf LIMIT ${index},${num}`;
-    let data = await query(str);
-    // console.log(data);
+    try {
+        let { page, num } = req.query;
+        // console.log(page, num);
+        page = page || 1;//设置默认值
+        num = num || 5;//设置默认值
+        let index = (page - 1) * num;
+        let str = `SELECT * FROM userinf LIMIT ${index},${num}`;
+        let data = await query(str);//用同步的写法实现异步的效果，解决回调地狱的根本
+        // console.log(data);
 
-    let sql2 = 'SELECT * FROM userinf';
-    let data2 = await query(sql2);
-    /*
-        result :{
-            type : 1,
-            msg : 'success',
-            page : 1,
-            num : 5,
-            pages : 6,
-            datalist : []
-        }
-    */
+        let sql2 = 'SELECT * FROM userinf';
+        let data2 = await query(sql2);
+        /*
+            result :{
+                type : 1,
+                msg : 'success',
+                page : 1,
+                num : 5,
+                pages : 6,
+                datalist : []
+            }
+        */
 
-    let result = {};
-    if (data.length) {
-        //成功返回的数据
-        let pages = Math.ceil(data2.length / num);
-        result = {
-            type: 1,
-            msg: 'success',
-            page,
-            num,
-            pages,
-            datalist: data
+        let result = {};
+        if (data.length) {
+            //成功返回的数据
+            let pages = Math.ceil(data2.length / num);
+            result = {
+                type: 1,
+                msg: 'success',
+                page,
+                num,
+                pages,
+                datalist: data
+            }
+        } else {
+            //失败返回的数据
+            result = {
+                type: 0,
+                msg: 'fail',
+                datalist: []
+            }
         }
-    } else {
-        //失败返回的数据
-        result = {
-            type: 0,
-            msg: 'fail',
-            datalist: []
-        }
+
+        res.send(result);
+    } catch (err) {
+        res.send(err);//捕获异常发送给前端
     }
 
-    res.send(result);
 });
 
 //需求：验证用户名是否存在

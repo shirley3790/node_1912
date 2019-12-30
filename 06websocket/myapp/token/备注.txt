@@ -1,0 +1,9 @@
+
+
+1. reg.html   验证用户名、注册
+
+2. login.html 登陆功能，token的生成和存储 登陆成功跳转上一页(如果有上一页，如果没有跳到首页)
+
+3. index.html 退出功能，删除token
+
+4. cart.html 路由拦截，验证token

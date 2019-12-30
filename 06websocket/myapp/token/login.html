@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登陆页</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>登陆</h2>
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">用户名</label>
+                <input type="email" class="form-control" id="username" aria-describedby="emailHelp"
+                    placeholder="请输入用户名">
+                <div class="invalid-feedback">
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">密码</label>
+                <input type="password" class="form-control" id="pwd1">
+                <div class="invalid-feedback">
+                    Please choose a username.
+                </div>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">七天免登陆</label>
+            </div>
+
+            <button type="button" class="btn btn-primary btnLogin">登陆</button>
+        </form>
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/jQuery.md5.js"></script>
+<script>
+    (() => {
+        let username = location.search.slice(1);
+        if (username) {
+            $('#username').val(username);
+        }
+
+        //登陆功能
+        $('.btnLogin').click(() => {
+            console.log(666);
+            let psw = $.md5($('#pwd1').val());
+            let name = $('#username').val();
+            let keep = $('#exampleCheck1').prop('checked');
+            console.log(keep);
+            if ($.trim(psw) && $.trim(name)) {
+                //1.非空判断
+                //2.正则判断
+                //3.ajax发送
+                $.ajax({
+                    type: 'get',
+                    url: '/users/login',
+                    data: {
+                        name,
+                        psw,
+                        keep
+                    },
+                    success: data => {
+                        console.log(data);
+                        if (data.type) {
+                            //注册成功
+                            alert('登陆成功，跳转首页');
+                            //如果有token把token保存到localstorage里面
+                            if (data.token) {
+                                localStorage.setItem('Authorization', data.token)
+                            }
+                            // let Authorization = localStorage.get('Authorization');
+                            // if(Authorization) {
+
+                            // }
+
+                            //登陆成功跳回上一页
+                            let target = localStorage.getItem('target');
+                            if (target) {
+                                location.href = target;
+                            } else {
+                                location.href = './index.html?' + name;//原窗口打开页面
+                            }
+
+                            // window.open('./login.html?' + name);//新窗口打开
+                        }
+                    }
+                })
+            }
+        });
+
+        console.log(username);
+    })();//自调用
+
+    // $(() => {
+
+    // });
+</script>
+
+</html>

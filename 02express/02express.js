@@ -3,7 +3,7 @@
 //引入模块
 const express = require('express');
 //调用方法生成对象
-const app = express();
+const app = express();//开启服务器
 
 //借助中间件开启静态资源服务器
 app.use(express.static('./'));//以当前目录为站点根目录

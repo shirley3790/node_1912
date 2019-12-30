@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>注册功能</h2>
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">用户名</label>
+                <input type="email" class="form-control" id="username" aria-describedby="emailHelp"
+                    placeholder="请输入用户名">
+                <div class="invalid-feedback">
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">密码</label>
+                <input type="password" class="form-control" id="pwd1">
+                <div class="invalid-feedback">
+                    Please choose a username.
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label for="exampleInputPassword1">确认密码</label>
+                <input type="password" class="form-control" id="pwd2">
+                <div class="invalid-feedback">
+                    Please choose a username.
+                </div>
+            </div> -->
+
+            <button type="button" class="btn btn-primary btnReg">注册</button>
+        </form>
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/jQuery.md5.js"></script>
+<script>
+    (() => {
+        /*
+            注册页面：
+                * 验证用户名是否存在 失去焦点的时候验证
+                * 注册功能 点击注册按钮(验证过了才能注册)
+        */
+
+        let isok = false;//如果isok是true才允许注册
+        //验证用户名是否存在
+        $('#username').blur(() => {
+            let val = $('#username').val();
+            if ($.trim(val)) {//非空验证:空数据是没有必要发送请求，节流
+                $.ajax({
+                    type: 'get',
+                    url: '/users/checkname',
+                    data: {
+                        name: val
+                    },
+                    success: data => {
+                        console.log(data);
+                        $('#username').next().addClass('is-valid').removeClass('invalid-feedback');
+                        if (data.type) {
+                            //真：可以注册,给提示  is-valid
+                            $('#username').next().html('可以注册').css('color', '#58bc58');
+                            isok = true;
+                        } else {
+                            //假：不可以注册，给提示
+                            $('#username').next().html('该用户太受欢迎啦，请换一个').css('color', 'red');
+                            isok = false;
+                        }
+                    }
+                })
+            }
+
+        });
+
+        //注册功能
+        $('.btnReg').click(() => {
+            let password = $('#pwd1').val();
+            let name = $('#username').val();
+            if ($.trim(password) && $.trim(name)) {
+                //1.非空判断
+                //2.正则判断
+                //3.ajax发送
+                $.ajax({
+                    type: 'post',
+                    url: '/users/reg',
+                    data: {
+                        name,
+                        password: $.md5(password) //利用md5算法进行单项加密。比较安全了
+                    },
+                    success: data => {
+                        console.log(data);
+                        if (data.type) {
+                            //注册成功
+                            alert('注册成功，跳转登陆页');
+                            location.href = './login.html?' + name;//原窗口打开页面
+                            // window.open('./login.html?' + name);
+                        }
+                    }
+                })
+            }
+        });
+    })();
+</script>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人中心</title>
+</head>
+
+<body>
+    <div>
+        <h1>个人中心</h1>
+        <!-- 上传单个图片 -->
+        <img src="" alt="" id="imgtou">
+        <input type="file" id="file">
+        <input type="button" value="上传头像" id="btn1">
+        <!-- 上传多个图片  multiple -->
+        <input type="file" id="goods" multiple>
+        <input type="button" value="上传头像" id="btn2">
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+    (() => {
+        /*
+            前端：借助h5新特效FormData 把表单的数据获取传给后端
+            * new FormData() 实例化
+            * 方法
+                * set(key,value)
+                * append(key, value)
+                * get(key)
+                * has(key)
+                * getAll(key)
+                * delete(key)
+                * 
+                * https://www.jianshu.com/p/cc650075b33b
+        */
+
+        //显示头像:发送ajax获取uid为xx的头像
+        //商品数据：发送ajax拿到的数据切割再循环渲染
+
+
+        //前端的工作
+        $('#btn1').click(() => {
+            let formdata = new FormData();//创建实例
+            formdata.append('touxiang', $('#file')[0].files[0]);
+            formdata.append('uid', 16);
+            // console.log(formdata);
+            // console.log($('#file')[0].files[0]);
+            $.ajax({
+                url: '/upload/touxiang',
+                type: 'post',
+                cache: false,
+                data: formdata,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    //上传成功后，发送ajax请求图片:数据库的数据
+                }
+            })
+        });
+
+        //上传商品图片
+        $('#btn2').click(() => {
+            let formdata = new FormData();//创建实例
+            // formdata.append('goods', $('#file')[0].files[0]);
+            formdata.append('id', 6);
+            for (let i in $('#goods')[0].files) {
+                formdata.append('goods', $('#goods')[0].files[i]);
+            }
+            $.ajax({
+                url: '/upload/goods',
+                type: 'post',
+                cache: false,
+                data: formdata,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    //上传成功后，发送ajax请求图片:数据库的数据
+                }
+            })
+        });
+    })();
+</script>
+
+</html>

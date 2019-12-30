@@ -26,7 +26,7 @@ request('http://www.netbian.com/youxi/', (err, res, body) => {
                 //发送第三次请求：下载图片
                 let obj = path.parse(url);
                 //http://img.netbian.com/file/2019/1223/148f0cc102503b874386b873688d678e.jpg
-                request(url).pipe(fs.createWriteStream('./imgs/' + obj.base));
+                request(url).pipe(fs.createWriteStream('./imgs/' + obj.base));//obj.base 就是完整的文件名：aa.jpg
             });
         }
     })

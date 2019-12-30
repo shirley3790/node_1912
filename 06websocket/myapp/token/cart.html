@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>购物车页面</title>
+</head>
+
+<body>
+    <h1>购物车页面</h1>
+    <p>
+        购物车信息
+    </p>
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+    /*
+        路由拦截：未登录的时候不能进入该页面(权限控制) 封装好，需要拦截的页面就引入该js即可
+    */
+    (() => {
+        let token = localStorage.getItem('Authorization');
+        // if (!token) {
+        //     location.href = './login.html';
+        // } else {
+        //     console.log('欢迎访问购物车页');
+        // }
+
+
+        $.ajax({
+            type: 'get',
+            url: '/users/verify',
+            data: {
+                token
+            },
+            success(data) {
+                console.log(data);
+                if (data.type) {
+                    //校验成功
+                    console.log('欢迎访问购物车');
+                } else {
+                    //校验失败跳转
+                    location.href = './login.html';
+                    localStorage.setItem('target', './cart.html');
+                }
+            }
+        })
+    })();
+</script>
+
+</html>
