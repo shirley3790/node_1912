@@ -3,6 +3,22 @@ const express = require('express');
 const query = require('../db/mysql');//自定义一个模块
 // console.log(query);
 const Router = express.Router();//路由设置  Router==app
+
+//把这个路由配置放在所有路由的前面，方便调用next操作
+Router.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "PUT,PATCH,POST,GET,DELETE,OPTIONS");
+
+    // 跨域请求CORS中的预请求
+    if (req.method == "OPTIONS") { //特殊请求：发送了请求头的那些请求
+        res.sendStatus(200); /*让options请求快速返回*/
+    } else {
+        next();
+    }
+})
+
+
 //提取body请求体数据用到的中间件，需要配置参数才能使用
 const bodyParser = require('body-parser');//第三方中间件：在express里面使用
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -185,9 +201,11 @@ Router.get('/verify', (req, res) => {
 
 //需求：注册功能
 
-Router.post('/reg', urlencodedParser, async (req, res) => {
+Router.post('/reg', urlencodedParser, express.json(), async (req, res) => {
     // let obj = req.body;
+    console.log(req.body);
     let { name, password } = req.body;//解构
+
     if (name && password) {
         let sql = `INSERT INTO userinf(name,psw) VALUES('${name}','${password}')`;
         let data = await query(sql);
