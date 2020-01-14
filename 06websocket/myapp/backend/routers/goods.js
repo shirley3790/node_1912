@@ -171,21 +171,21 @@ Router.get('/goodcart', async (req, res) => {
     let { gid, uid } = req.query;
     let str = `SELECT * FROM cartinf WHERE gid=${gid} AND uid=${uid}`;
     let data = await query(str);
-    let result = {};
-    if (data.length) { // '0' 真  0 假
-        //有，就不需要插入新数据
-        result = {
-            type: 0,
-            msg: '存在'
-        }
-    } else {
-        //没有，添加新数据
-        result = {
-            type: 1,
-            msg: '不存在'
-        }
-    }
-    res.send(result);
+    // let result = {};
+    // if (data.length) { // '0' 真  0 假
+    //     //有，就不需要插入新数据
+    //     result = {
+    //         type: 0,
+    //         msg: '存在'
+    //     }
+    // } else {
+    //     //没有，添加新数据
+    //     result = {
+    //         type: 1,
+    //         msg: '不存在'
+    //     }
+    // }
+    res.send(data);
 });
 
 //修改某订单数量
@@ -210,6 +210,11 @@ Router.put('/good', async (req, res) => {
     res.send(result);
 });
 
-
+//查询订单表列表数据
+Router.get('/cartlist', async (req, res) => {
+    let str = `SELECT * FROM cartinf`;
+    let data = await query(str);
+    res.send(data);
+});
 
 module.exports = Router;
