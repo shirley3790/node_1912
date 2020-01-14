@@ -9,6 +9,12 @@ const uploadRouter = require('./upload'); //引入子路由
 
 const Router = express.Router(); //路由设置  Router==app
 
+//提取body请求体数据用到的中间件，需要配置参数才能使用
+const bodyParser = require('body-parser');//第三方中间件：在express里面使用
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+Router.use(urlencodedParser, express.json());
+
 //把这个路由配置放在所有路由的前面，方便调用next操作
 Router.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");

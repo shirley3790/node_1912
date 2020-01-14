@@ -4,12 +4,6 @@ const query = require('../db/mysql');//自定义一个模块
 // console.log(query);
 const Router = express.Router();//路由设置  Router==app
 
-
-
-
-//提取body请求体数据用到的中间件，需要配置参数才能使用
-const bodyParser = require('body-parser');//第三方中间件：在express里面使用
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const { create, verify } = require('./token');
 
 /*
@@ -189,7 +183,7 @@ Router.get('/verify', (req, res) => {
 
 //需求：注册功能
 
-Router.post('/reg', urlencodedParser, express.json(), async (req, res) => {
+Router.post('/reg', async (req, res) => {
     // let obj = req.body;
     console.log(req.body);
     let { name, password } = req.body;//解构

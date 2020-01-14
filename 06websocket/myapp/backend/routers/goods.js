@@ -111,4 +111,105 @@ Router.get('/getlist', async (req, res) => {
     res.send(data);
 });
 
+//二级列表的实现：三个接口实现
+Router.get('/list1', async (req, res) => {
+    let str = `SELECT * FROM list1`;
+    let data = await query(str);
+    res.send(data);
+});
+
+//一级列表数据
+Router.get('/list2', async (req, res) => {
+    let { cid } = req.query;
+    console.log('list2')
+    let str = `SELECT * FROM list2 WHERE cid=${cid}`;
+    let data = await query(str);
+    res.send(data);
+});
+
+//二级列表数据
+Router.get('/list3', async (req, res) => {
+    let { cid, cid3 } = req.query;
+    let str = `SELECT * FROM details WHERE cid=${cid} AND cid2=${cid3}`;
+    let data = await query(str);
+    res.send(data);
+});
+
+//查询gid=11的商品数据
+Router.get('/good', async (req, res) => {
+    let { gid } = req.query;
+    let str = `SELECT * FROM details WHERE gid2=${gid}`;
+    let data = await query(str);
+    res.send(data);
+});
+
+//插入商品到订单表
+Router.post('/good', async (req, res) => {
+    let { gid, uid, gname, price, kucun, num } = req.body;
+    let str = `INSERT INTO cartinf(gid,uid,gname,price,kucun,num) VALUES(
+        ${gid},${uid},'${gname}',${price},${kucun},${num})`;
+    let data = await query(str);
+    let result = {};
+    if (data.affectedRows) {
+        //插入成功
+        result = {
+            type: 1,
+            msg: '添加成功'
+        }
+    } else {
+        //插入失败
+        result = {
+            type: 0,
+            msg: '添加失败'
+        }
+    }
+    res.send(result);
+});
+
+//查询订单表是否含有某个用户购买的商品
+Router.get('/goodcart', async (req, res) => {
+    let { gid, uid } = req.query;
+    let str = `SELECT * FROM cartinf WHERE gid=${gid} AND uid=${uid}`;
+    let data = await query(str);
+    let result = {};
+    if (data.length) { // '0' 真  0 假
+        //有，就不需要插入新数据
+        result = {
+            type: 0,
+            msg: '存在'
+        }
+    } else {
+        //没有，添加新数据
+        result = {
+            type: 1,
+            msg: '不存在'
+        }
+    }
+    res.send(result);
+});
+
+//修改某订单数量
+Router.put('/good', async (req, res) => {
+    let { gid, uid, num } = req.body;
+    let str = `UPDATE cartinf SET num=${num} WHERE gid=${gid} AND uid=${uid}`;
+    let data = await query(str);
+    let result = {};
+    if (data.changedRows) { // '0' 真  0 假
+        //修改成功
+        result = {
+            type: 1,
+            msg: '修改成功'
+        }
+    } else {
+        //没有，添加新数据
+        result = {
+            type: 0,
+            msg: '修改失败'
+        }
+    }
+    res.send(result);
+});
+
+
+
 module.exports = Router;

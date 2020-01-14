@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 
 //生成token
 let secret = 'malin';//钥匙
-function create(data, expiresIn = 60) {
+function create(data, expiresIn = 60 * 60 * 24 * 7) {
     let token = jwt.sign({ data }, secret, {
         expiresIn
     });
