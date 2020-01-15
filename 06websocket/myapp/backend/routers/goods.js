@@ -121,7 +121,7 @@ Router.get('/list1', async (req, res) => {
 //一级列表数据
 Router.get('/list2', async (req, res) => {
     let { cid } = req.query;
-    console.log('list2')
+    // console.log('list2')
     let str = `SELECT * FROM list2 WHERE cid=${cid}`;
     let data = await query(str);
     res.send(data);
@@ -145,7 +145,9 @@ Router.get('/good', async (req, res) => {
 
 //插入商品到订单表
 Router.post('/good', async (req, res) => {
+    console.log(req.body);
     let { gid, uid, gname, price, kucun, num } = req.body;
+    // console.log(req.body);
     let str = `INSERT INTO cartinf(gid,uid,gname,price,kucun,num) VALUES(
         ${gid},${uid},'${gname}',${price},${kucun},${num})`;
     let data = await query(str);
